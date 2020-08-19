@@ -33,3 +33,25 @@ func (s *server) GetBook(ctx context.Context, in *pb.BookID) (*pb.Book, error) {
     }
     return nil, status.Errorf(codes.NotFound, "Book does not exist.", in.Value)
 }
+
+func (server *server) DeleteBook(ctx context.Context, in *pb.BookID) (*pb.Status, error) {
+	_, exists := server.bookMap[in.Value]
+	if exists {
+		delete(server.bookMap, in.Value)
+	} else {
+		return nil, status.Errorf(codes.NotFound, "Book does not exist.", in.Value)
+	}
+	//return nil, status.Errorf(codes.NotFound, "Book does not exist.", in.Value)
+	return &pb.Status{Status: "Correct", Mensaje: "Eliminado correctamente"}, status.New(codes.OK, "").Err()
+}
+
+func (s *server) UpdateBook(ctx context.Context, in *pb.BookUpdate) (*pb.Book, error) {
+	_, exists := s.bookMap[in.Id.Value]
+	if exists {
+		s.bookMap[in.Id.Value] = in.Update
+		updatedBook, _ := s.bookMap[in.Id.Value]
+		return updatedBook, status.New(codes.OK, "").Err()
+	} else {
+		return nil, status.Errorf(codes.NotFound, "Book does not exist.", "")
+    }
+}

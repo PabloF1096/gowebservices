@@ -4,6 +4,8 @@ package booksapp;
 service BookInfo {
   rpc addBook(Book) returns (BookID);
   rpc getBook(BookID) returns (Book);
+  rpc deleteBook(BookID) returns (Status);
+  rpc updateBook(BookUpdate) returns (Book);
 }
 
 message Book {
@@ -15,6 +17,16 @@ message Book {
   string Pages = 6;
   string Author = 7;
   string Publisher = 8;
+}
+
+message BookUpdate {
+  Book Update = 1;
+  BookID Id = 2;
+}
+
+message Status {
+  string Status = 1;
+  string Mensaje = 2;
 }
 
 message BookID {

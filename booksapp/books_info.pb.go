@@ -132,6 +132,116 @@ func (x *Book) GetPublisher() string {
 	return ""
 }
 
+type BookUpdate struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Update *Book   `protobuf:"bytes,1,opt,name=Update,proto3" json:"Update,omitempty"`
+	Id     *BookID `protobuf:"bytes,2,opt,name=Id,proto3" json:"Id,omitempty"`
+}
+
+func (x *BookUpdate) Reset() {
+	*x = BookUpdate{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_books_info_proto_msgTypes[1]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *BookUpdate) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*BookUpdate) ProtoMessage() {}
+
+func (x *BookUpdate) ProtoReflect() protoreflect.Message {
+	mi := &file_books_info_proto_msgTypes[1]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use BookUpdate.ProtoReflect.Descriptor instead.
+func (*BookUpdate) Descriptor() ([]byte, []int) {
+	return file_books_info_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *BookUpdate) GetUpdate() *Book {
+	if x != nil {
+		return x.Update
+	}
+	return nil
+}
+
+func (x *BookUpdate) GetId() *BookID {
+	if x != nil {
+		return x.Id
+	}
+	return nil
+}
+
+type Status struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Status  string `protobuf:"bytes,1,opt,name=Status,proto3" json:"Status,omitempty"`
+	Mensaje string `protobuf:"bytes,2,opt,name=Mensaje,proto3" json:"Mensaje,omitempty"`
+}
+
+func (x *Status) Reset() {
+	*x = Status{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_books_info_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Status) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Status) ProtoMessage() {}
+
+func (x *Status) ProtoReflect() protoreflect.Message {
+	mi := &file_books_info_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Status.ProtoReflect.Descriptor instead.
+func (*Status) Descriptor() ([]byte, []int) {
+	return file_books_info_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Status) GetStatus() string {
+	if x != nil {
+		return x.Status
+	}
+	return ""
+}
+
+func (x *Status) GetMensaje() string {
+	if x != nil {
+		return x.Mensaje
+	}
+	return ""
+}
+
 type BookID struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -143,7 +253,7 @@ type BookID struct {
 func (x *BookID) Reset() {
 	*x = BookID{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_books_info_proto_msgTypes[1]
+		mi := &file_books_info_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -156,7 +266,7 @@ func (x *BookID) String() string {
 func (*BookID) ProtoMessage() {}
 
 func (x *BookID) ProtoReflect() protoreflect.Message {
-	mi := &file_books_info_proto_msgTypes[1]
+	mi := &file_books_info_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -169,7 +279,7 @@ func (x *BookID) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use BookID.ProtoReflect.Descriptor instead.
 func (*BookID) Descriptor() ([]byte, []int) {
-	return file_books_info_proto_rawDescGZIP(), []int{1}
+	return file_books_info_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *BookID) GetValue() string {
@@ -196,16 +306,32 @@ var file_books_info_proto_rawDesc = []byte{
 	0x50, 0x61, 0x67, 0x65, 0x73, 0x12, 0x16, 0x0a, 0x06, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x18,
 	0x07, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x12, 0x1c, 0x0a,
 	0x09, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x65, 0x72, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x09, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x65, 0x72, 0x22, 0x1e, 0x0a, 0x06, 0x42,
-	0x6f, 0x6f, 0x6b, 0x49, 0x44, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x32, 0x64, 0x0a, 0x08, 0x42,
-	0x6f, 0x6f, 0x6b, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x2b, 0x0a, 0x07, 0x61, 0x64, 0x64, 0x42, 0x6f,
-	0x6f, 0x6b, 0x12, 0x0e, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70, 0x70, 0x2e, 0x42, 0x6f,
-	0x6f, 0x6b, 0x1a, 0x10, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70, 0x70, 0x2e, 0x42, 0x6f,
-	0x6f, 0x6b, 0x49, 0x44, 0x12, 0x2b, 0x0a, 0x07, 0x67, 0x65, 0x74, 0x42, 0x6f, 0x6f, 0x6b, 0x12,
-	0x10, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70, 0x70, 0x2e, 0x42, 0x6f, 0x6f, 0x6b, 0x49,
-	0x44, 0x1a, 0x0e, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70, 0x70, 0x2e, 0x42, 0x6f, 0x6f,
-	0x6b, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x52, 0x09, 0x50, 0x75, 0x62, 0x6c, 0x69, 0x73, 0x68, 0x65, 0x72, 0x22, 0x56, 0x0a, 0x0a, 0x42,
+	0x6f, 0x6f, 0x6b, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x26, 0x0a, 0x06, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x62, 0x6f, 0x6f, 0x6b,
+	0x73, 0x61, 0x70, 0x70, 0x2e, 0x42, 0x6f, 0x6f, 0x6b, 0x52, 0x06, 0x55, 0x70, 0x64, 0x61, 0x74,
+	0x65, 0x12, 0x20, 0x0a, 0x02, 0x49, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e,
+	0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70, 0x70, 0x2e, 0x42, 0x6f, 0x6f, 0x6b, 0x49, 0x44, 0x52,
+	0x02, 0x49, 0x64, 0x22, 0x3a, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x16, 0x0a,
+	0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x53,
+	0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x4d, 0x65, 0x6e, 0x73, 0x61, 0x6a, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x4d, 0x65, 0x6e, 0x73, 0x61, 0x6a, 0x65, 0x22,
+	0x1e, 0x0a, 0x06, 0x42, 0x6f, 0x6f, 0x6b, 0x49, 0x44, 0x12, 0x14, 0x0a, 0x05, 0x76, 0x61, 0x6c,
+	0x75, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x32,
+	0xca, 0x01, 0x0a, 0x08, 0x42, 0x6f, 0x6f, 0x6b, 0x49, 0x6e, 0x66, 0x6f, 0x12, 0x2b, 0x0a, 0x07,
+	0x61, 0x64, 0x64, 0x42, 0x6f, 0x6f, 0x6b, 0x12, 0x0e, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61,
+	0x70, 0x70, 0x2e, 0x42, 0x6f, 0x6f, 0x6b, 0x1a, 0x10, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61,
+	0x70, 0x70, 0x2e, 0x42, 0x6f, 0x6f, 0x6b, 0x49, 0x44, 0x12, 0x2b, 0x0a, 0x07, 0x67, 0x65, 0x74,
+	0x42, 0x6f, 0x6f, 0x6b, 0x12, 0x10, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70, 0x70, 0x2e,
+	0x42, 0x6f, 0x6f, 0x6b, 0x49, 0x44, 0x1a, 0x0e, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70,
+	0x70, 0x2e, 0x42, 0x6f, 0x6f, 0x6b, 0x12, 0x30, 0x0a, 0x0a, 0x64, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x42, 0x6f, 0x6f, 0x6b, 0x12, 0x10, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70, 0x70, 0x2e,
+	0x42, 0x6f, 0x6f, 0x6b, 0x49, 0x44, 0x1a, 0x10, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70,
+	0x70, 0x2e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x32, 0x0a, 0x0a, 0x75, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x42, 0x6f, 0x6f, 0x6b, 0x12, 0x14, 0x2e, 0x62, 0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70,
+	0x70, 0x2e, 0x42, 0x6f, 0x6f, 0x6b, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x1a, 0x0e, 0x2e, 0x62,
+	0x6f, 0x6f, 0x6b, 0x73, 0x61, 0x70, 0x70, 0x2e, 0x42, 0x6f, 0x6f, 0x6b, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -220,21 +346,29 @@ func file_books_info_proto_rawDescGZIP() []byte {
 	return file_books_info_proto_rawDescData
 }
 
-var file_books_info_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_books_info_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_books_info_proto_goTypes = []interface{}{
-	(*Book)(nil),   // 0: booksapp.Book
-	(*BookID)(nil), // 1: booksapp.BookID
+	(*Book)(nil),       // 0: booksapp.Book
+	(*BookUpdate)(nil), // 1: booksapp.BookUpdate
+	(*Status)(nil),     // 2: booksapp.Status
+	(*BookID)(nil),     // 3: booksapp.BookID
 }
 var file_books_info_proto_depIdxs = []int32{
-	0, // 0: booksapp.BookInfo.addBook:input_type -> booksapp.Book
-	1, // 1: booksapp.BookInfo.getBook:input_type -> booksapp.BookID
-	1, // 2: booksapp.BookInfo.addBook:output_type -> booksapp.BookID
-	0, // 3: booksapp.BookInfo.getBook:output_type -> booksapp.Book
-	2, // [2:4] is the sub-list for method output_type
-	0, // [0:2] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	0, // 0: booksapp.BookUpdate.Update:type_name -> booksapp.Book
+	3, // 1: booksapp.BookUpdate.Id:type_name -> booksapp.BookID
+	0, // 2: booksapp.BookInfo.addBook:input_type -> booksapp.Book
+	3, // 3: booksapp.BookInfo.getBook:input_type -> booksapp.BookID
+	3, // 4: booksapp.BookInfo.deleteBook:input_type -> booksapp.BookID
+	1, // 5: booksapp.BookInfo.updateBook:input_type -> booksapp.BookUpdate
+	3, // 6: booksapp.BookInfo.addBook:output_type -> booksapp.BookID
+	0, // 7: booksapp.BookInfo.getBook:output_type -> booksapp.Book
+	2, // 8: booksapp.BookInfo.deleteBook:output_type -> booksapp.Status
+	0, // 9: booksapp.BookInfo.updateBook:output_type -> booksapp.Book
+	6, // [6:10] is the sub-list for method output_type
+	2, // [2:6] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_books_info_proto_init() }
@@ -256,6 +390,30 @@ func file_books_info_proto_init() {
 			}
 		}
 		file_books_info_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*BookUpdate); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_books_info_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Status); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_books_info_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*BookID); i {
 			case 0:
 				return &v.state
@@ -274,7 +432,7 @@ func file_books_info_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_books_info_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -302,6 +460,8 @@ const _ = grpc.SupportPackageIsVersion6
 type BookInfoClient interface {
 	AddBook(ctx context.Context, in *Book, opts ...grpc.CallOption) (*BookID, error)
 	GetBook(ctx context.Context, in *BookID, opts ...grpc.CallOption) (*Book, error)
+	DeleteBook(ctx context.Context, in *BookID, opts ...grpc.CallOption) (*Status, error)
+	UpdateBook(ctx context.Context, in *BookUpdate, opts ...grpc.CallOption) (*Book, error)
 }
 
 type bookInfoClient struct {
@@ -330,10 +490,30 @@ func (c *bookInfoClient) GetBook(ctx context.Context, in *BookID, opts ...grpc.C
 	return out, nil
 }
 
+func (c *bookInfoClient) DeleteBook(ctx context.Context, in *BookID, opts ...grpc.CallOption) (*Status, error) {
+	out := new(Status)
+	err := c.cc.Invoke(ctx, "/booksapp.BookInfo/deleteBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bookInfoClient) UpdateBook(ctx context.Context, in *BookUpdate, opts ...grpc.CallOption) (*Book, error) {
+	out := new(Book)
+	err := c.cc.Invoke(ctx, "/booksapp.BookInfo/updateBook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BookInfoServer is the server API for BookInfo service.
 type BookInfoServer interface {
 	AddBook(context.Context, *Book) (*BookID, error)
 	GetBook(context.Context, *BookID) (*Book, error)
+	DeleteBook(context.Context, *BookID) (*Status, error)
+	UpdateBook(context.Context, *BookUpdate) (*Book, error)
 }
 
 // UnimplementedBookInfoServer can be embedded to have forward compatible implementations.
@@ -345,6 +525,12 @@ func (*UnimplementedBookInfoServer) AddBook(context.Context, *Book) (*BookID, er
 }
 func (*UnimplementedBookInfoServer) GetBook(context.Context, *BookID) (*Book, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBook not implemented")
+}
+func (*UnimplementedBookInfoServer) DeleteBook(context.Context, *BookID) (*Status, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteBook not implemented")
+}
+func (*UnimplementedBookInfoServer) UpdateBook(context.Context, *BookUpdate) (*Book, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBook not implemented")
 }
 
 func RegisterBookInfoServer(s *grpc.Server, srv BookInfoServer) {
@@ -387,6 +573,42 @@ func _BookInfo_GetBook_Handler(srv interface{}, ctx context.Context, dec func(in
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BookInfo_DeleteBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BookID)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BookInfoServer).DeleteBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/booksapp.BookInfo/DeleteBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BookInfoServer).DeleteBook(ctx, req.(*BookID))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _BookInfo_UpdateBook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(BookUpdate)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BookInfoServer).UpdateBook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/booksapp.BookInfo/UpdateBook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BookInfoServer).UpdateBook(ctx, req.(*BookUpdate))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _BookInfo_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "booksapp.BookInfo",
 	HandlerType: (*BookInfoServer)(nil),
@@ -398,6 +620,14 @@ var _BookInfo_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "getBook",
 			Handler:    _BookInfo_GetBook_Handler,
+		},
+		{
+			MethodName: "deleteBook",
+			Handler:    _BookInfo_DeleteBook_Handler,
+		},
+		{
+			MethodName: "updateBook",
+			Handler:    _BookInfo_UpdateBook_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
