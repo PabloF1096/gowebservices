@@ -1,0 +1,413 @@
+openapi: 3.0.0
+info:
+  title: Books, Authors and Publishers API
+  description: This web service offers information on books, authors and publishers
+  version: 0.1.9
+servers:
+- url: /
+tags:
+- name: book
+  description: Information about Books
+- name: author
+  description: Information about authors
+- name: publisher
+  description: Information about publishers
+paths:
+  /books/{bookId}/authors:
+    get:
+      tags:
+      - book
+      summary: Returns a list of authors Ids related Book by ID
+      parameters:
+      - name: bookId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+  /books/{bookId}/publishers:
+    get:
+      tags:
+      - book
+      summary: Returns a list of publishers Ids related Book by ID
+      parameters:
+      - name: bookId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+  /books/{bookId}:
+    get:
+      tags:
+      - book
+      summary: Returns a book by ID.
+      parameters:
+      - name: bookId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+    put:
+      tags:
+      - book
+      summary: Update book information
+      parameters:
+      - name: bookId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      responses:
+        "200":
+          description: OK
+    delete:
+      tags:
+      - book
+      summary: Delete a book by ID.
+      parameters:
+      - name: bookId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /books/:
+    post:
+      tags:
+      - book
+      summary: Create a new book
+      requestBody:
+        description: Book data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Book'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /authors/{authorsId}/books:
+    get:
+      tags:
+      - author
+      summary: Returns a list of books Ids related to an Author by ID
+      parameters:
+      - name: authorsId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+  /authors/{authorId}:
+    get:
+      tags:
+      - author
+      summary: Returns an author by ID.
+      parameters:
+      - name: authorId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Author'
+    put:
+      tags:
+      - author
+      summary: Update an author information
+      parameters:
+      - name: authorId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Author data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Author'
+        required: true
+      responses:
+        "200":
+          description: OK
+    delete:
+      tags:
+      - author
+      summary: Delete an author by ID.
+      parameters:
+      - name: authorId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /authors/:
+    post:
+      tags:
+      - author
+      summary: Create a new author
+      requestBody:
+        description: Author data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Author'
+        required: true
+      responses:
+        "200":
+          description: OK
+  /publisher/{publisherId}/books:
+    get:
+      tags:
+      - publisher
+      summary: Returns a list of books Ids related to an Publisher by ID
+      parameters:
+      - name: publisherId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                x-content-type: application/json
+  /publisher/{publisherId}:
+    get:
+      tags:
+      - publisher
+      summary: Returns a publisher by ID.
+      parameters:
+      - name: publisherId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Publisher'
+    put:
+      tags:
+      - publisher
+      summary: Update an publisher information
+      parameters:
+      - name: publisherId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Publisher data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Publisher'
+        required: true
+      responses:
+        "200":
+          description: OK
+    delete:
+      tags:
+      - publisher
+      summary: Delete an publisher by ID.
+      parameters:
+      - name: publisherId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+  /publishers/:
+    post:
+      tags:
+      - publisher
+      summary: Create a new publisher
+      requestBody:
+        description: Publisher data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Publisher'
+        required: true
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        bookId:
+          type: string
+        title:
+          type: string
+        edition:
+          type: string
+        copyright:
+          type: string
+        language:
+          type: string
+        pages:
+          type: string
+        authorsIds:
+          type: array
+          items:
+            type: string
+        publishersIds:
+          type: array
+          items:
+            type: string
+      example:
+        authorsIds:
+        - authorsIds
+        - authorsIds
+        publishersIds:
+        - publishersIds
+        - publishersIds
+        copyright: copyright
+        pages: pages
+        edition: edition
+        language: language
+        title: title
+        bookId: bookId
+    Author:
+      type: object
+      properties:
+        authorId:
+          type: string
+        name:
+          type: string
+        nationality:
+          type: string
+        birth:
+          type: string
+        genre:
+          type: string
+        bookIds:
+          type: array
+          items:
+            type: string
+      example:
+        nationality: nationality
+        bookIds:
+        - bookIds
+        - bookIds
+        name: name
+        genre: genre
+        birth: birth
+        authorId: authorId
+    Publisher:
+      type: object
+      properties:
+        publisherId:
+          type: string
+        name:
+          type: string
+        country:
+          type: string
+        founded:
+          type: string
+        genre:
+          type: string
+        bookIds:
+          type: array
+          items:
+            type: string
+      example:
+        country: country
+        publisherId: publisherId
+        bookIds:
+        - bookIds
+        - bookIds
+        name: name
+        founded: founded
+        genre: genre
