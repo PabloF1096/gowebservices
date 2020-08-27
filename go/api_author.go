@@ -17,7 +17,7 @@ import (
 
 var authors = []Author{
 	Author{AuthorId: "Author1", Name: "Abraham Silberschatz", Nationality: "USA",
-	Birth: "1985", Genre: "Male", BookIds: []string{"Book1"}},
+	Birth: "1985", Genre: "Male", BookIds: []string{"Book1","Book2"}},
 	Author{AuthorId: "Author2", Name: "Andrew S. Tanenbaum", Nationality: "Ducth",
 	Birth: "1944", Genre: "Male", BookIds: []string{"Book2"}},
 }
@@ -36,17 +36,16 @@ func AuthorsAuthorsIdBooksGet(w http.ResponseWriter, r *http.Request) {
 	id := path.Base(dir)
 	i := findAuthor(id)
 	authorRef := &authors[i]
+	var authorBooks []Book
 	for i := 0; i < len(authorRef.BookIds); i++ {
 		fmt.Println(authorRef.BookIds[i])
 		indexBook := findBook(authorRef.BookIds[i])
-		if i == -1 {
-		return
-		}
-		dataJson, _ := json.Marshal(books[indexBook])
+		authorBooks = append(authorBooks, books[indexBook])
+	}
+	dataJson, _ := json.Marshal(authorBooks)
 		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 		w.Write(dataJson)
 		w.WriteHeader(http.StatusOK)
-	}
 }
 
 func AuthorsAuthorIdDelete(w http.ResponseWriter, r *http.Request) {

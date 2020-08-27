@@ -17,7 +17,7 @@ import (
 
 var publishers = []Publisher{
 	Publisher{PublisherId: "Publisher1", Name: "John Wiley & Sons", Country: "USA",
-	Founded: "1807", Genre: "Engineering", BookIds: []string{"Book1"}},
+	Founded: "1807", Genre: "Engineering", BookIds: []string{"Book1","Book2"}},
 	Publisher{PublisherId: "Publisher2", Name: "Pearson Education", Country: "UK",
 	Founded: "1844", Genre: "DataBases", BookIds: []string{"Book2"}},
 }
@@ -36,17 +36,16 @@ func PublisherPublisherIdBooksGet(w http.ResponseWriter, r *http.Request) {
 	id := path.Base(dir)
 	i := findPublisher(id)
 	publisherRef := &publishers[i]
+	var publisherBooks []Book
 	for i := 0; i < len(publisherRef.BookIds); i++ {
 		fmt.Println(publisherRef.BookIds[i])
 		indexBook := findBook(publisherRef.BookIds[i])
-		if i == -1 {
-		return
-		}
-		dataJson, _ := json.Marshal(books[indexBook])
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		w.Write(dataJson)
-		w.WriteHeader(http.StatusOK)
+		publisherBooks = append(publisherBooks, books[indexBook])
 	}
+	dataJson, _ := json.Marshal(publisherBooks)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
 }
 
 func PublisherPublisherIdDelete(w http.ResponseWriter, r *http.Request) {

@@ -18,7 +18,7 @@ import (
 var books = []Book{
     Book{BookId: "Book1", Title: "Operating System Concepts", Edition: "9th",
         Copyright: "2012", Language: "ENGLISH", Pages: "976",
-        AuthorsIds: []string{"Author1"}, PublishersIds: []string{"Publisher1"}},
+        AuthorsIds: []string{"Author1","Author2"}, PublishersIds: []string{"Publisher1","Publisher2"}},
     Book{BookId: "Book2", Title: "Computer Networks", Edition: "5th",
         Copyright: "2010", Language: "ENGLISH", Pages: "960",
         AuthorsIds: []string{"Author2"}, PublishersIds: []string{"Publisher2"}},
@@ -38,17 +38,16 @@ func BooksBookIdAuthorsGet(w http.ResponseWriter, r *http.Request) {
 	id := path.Base(dir)
 	i := findBook(id)
 	bookRef := &books[i]
+	var bookAuthors []Author
 	for i := 0; i < len(bookRef.AuthorsIds); i++ {
 		fmt.Println(bookRef.AuthorsIds[i])
 		authorIndex := findAuthor(bookRef.AuthorsIds[i])
-		if i == -1 {
-		return
-		}
-		dataJson, _ := json.Marshal(authors[authorIndex])
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		w.Write(dataJson)
-		w.WriteHeader(http.StatusOK)
+		bookAuthors = append(bookAuthors, authors[authorIndex])
 	}
+	dataJson, _ := json.Marshal(bookAuthors)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
 }
 
 func BooksBookIdPublishersGet(w http.ResponseWriter, r *http.Request) {
@@ -56,17 +55,16 @@ func BooksBookIdPublishersGet(w http.ResponseWriter, r *http.Request) {
 	id := path.Base(dir)
 	i := findBook(id)
 	bookRef := &books[i]
+	var bookPublishers []Publisher
 	for i := 0; i < len(bookRef.PublishersIds); i++ {
 		fmt.Println(bookRef.PublishersIds[i])
 		publisherIndex := findPublisher(bookRef.PublishersIds[i])
-		if i == -1 {
-		return
-		}
-		dataJson, _ := json.Marshal(publishers[publisherIndex])
-		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
-		w.Write(dataJson)
-		w.WriteHeader(http.StatusOK)
+		bookPublishers = append(bookPublishers, publishers[publisherIndex])
 	}
+	dataJson, _ := json.Marshal(bookPublishers)
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Write(dataJson)
+	w.WriteHeader(http.StatusOK)
 }
 
 func BooksBookIdDelete(w http.ResponseWriter, r *http.Request) {
