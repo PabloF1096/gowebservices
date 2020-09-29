@@ -1,0 +1,29 @@
+BOOKS
+POST
+curl -X POST -H "Content-Type: application/json" -d '{"bookId": "Book3","title": "Fundamentals of Database Systems","edition": "7th","copyright": "2013","language": "ENGLISH","pages": "1280","authorsIds": ["Author1","Author2"],"publishersIds": ["Publisher1","Publisher2"]}' http://localhost:8080/book
+GET
+curl http://localhost:8080/book/Book3
+PUT
+curl -d '{"bookId": "Book3","title": "Fundamentals of Database Systems","edition": "7th","copyright": "2014","language": "ENGLISH","pages": "1280","authorsIds": ["Author1","Author2"],"publishersIds": ["Publisher1","Publisher2"]}' -X PUT http://localhost:8080/book/update
+DELETE
+curl -X DELETE http://localhost:8080/book/Book3
+
+AUTHORS
+POST
+curl -X POST -H "Content-Type: application/json" -d '{"AuthorId":"Author3", "Name":"Laura Chinchilla", "Nationality":"CR", "Birth":"2013", "Genre":"Female", "BookIds": ["Book1"]}' http://localhost:8080/author
+GET
+curl http://localhost:8080/author/Author3
+PUT
+curl  -d '{"AuthorId":"Author3", "Name":"Fernanda Chinchilla", "Nationality":"CR", "Birth":"2013", "Genre":"Female", "BookIds": ["Book1"]}' -X PUT http://localhost:8080/author/update
+DELETE
+curl -X DELETE http://localhost:8080/author/Author3
+
+PUBLISHERS
+POST
+curl -X POST -H "Content-Type: application/json" -d '{"PublisherId":"Publisher3", "Name":"Hachette Livre", "Country":"France", "Founded":"1826", "Genre":"Education", "BookIds": ["Book1"] }' http://localhost:8080/publisher
+GET
+curl http://localhost:8080/publisher/Publisher3
+PUT
+curl -d '{"PublisherId":"Publisher3", "Name":"Hachette Livre", "Country":"Spain", "Founded":"1826", "Genre":"Education", "BookIds": ["Book1"] }' -X PUT http://localhost:8080/publisher/update
+DELETE
+curl -X DELETE http://localhost:8080/publisher/Publisher3

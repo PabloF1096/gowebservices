@@ -1,6 +1,4 @@
-# gowebservices
-Go language example
+# Tarea 4
 
-Para esta Tarea 3, correr de manera local:
-1-PORT=8080 go run main.go
-2- Ejecutar pruebas:
+Resuelva el ejercicio 1 del tutorial 5 sobre el microservicios con GoKit. Suba al classroom de Github el código desarrollado, además agregue un documento en formato PDF (no WORD) que incluya el resultado de la ejecución de las pruebas en el servicio local y remoto.
+
