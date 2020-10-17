@@ -8,107 +8,173 @@ import (
     "os"
 )
 
+func handler(writer http.ResponseWriter, request *http.Request) {
+    var err error
+    // readData("tv_shows.csv")
+    writeDataTvShowCSV("tv_shows.csv")
+    if err != nil {
+        http.Error(writer, err.Error(), http.StatusInternalServerError)
+        return
+    }
+
+    writeDataToRateCSV("rate.csv")
+    if err != nil {
+        http.Error(writer, err.Error(), http.StatusInternalServerError)
+        return
+    }
+    writeDataToYearCSV("year.csv")
+    if err != nil {
+        http.Error(writer, err.Error(), http.StatusInternalServerError)
+        return
+    }
+}
+
 func main() {
+    readDataFromTvShowCSV("tv_shows.csv")
+    readDataFromRateCSV("rate.csv")
+    readDataFromYearCSV("year.csv")
+    // disyplayCsvData()
+    
+
     logger := log.NewLogfmtLogger(os.Stderr)
 
     r := mux.NewRouter()
 
-    var svc BookService
-	svc = NewService(logger)
-	
-	var svcAuthor AuthorService
-	svcAuthor = NewServiceAuthor(logger)
-	
-	var svcPublisher PublisherService
-    svcPublisher = NewServicePublisher(logger)
+    var svcTV TVshowService
+    svcTV = NewServiceTVshow(logger)
 
-    // svc = loggingMiddleware{logger, svc}
-    // svc = instrumentingMiddleware{requestCount, requestLatency, countResult, svc}
+    var svRate RateService
+    svRate = NewServiceRate(logger)
+    
+    var svYear YearService
+	svYear = NewServiceYear(logger)
 
-	//Book
-    CreateBookHandler := httptransport.NewServer(
-        makeCreateBookEndpoint(svc),
-        decodeCreateBookRequest,
-        encodeResponse,
+    //TV show
+    CreateTVshowHandler := httptransport.NewServer(
+        makeCreateTVshowEndpoint(svcTV),
+        decodeCreateTVshowRequest,
+        encodeTVshowResponse,
     )
-    GetByBookIdHandler := httptransport.NewServer(
-        makeGetBookByIdEndpoint(svc),
-        decodeGetBookByIdRequest,
-        encodeResponse,
+    GetByTVshowIdHandler := httptransport.NewServer(
+        makeGetTVshowByIdEndpoint(svcTV),
+        decodeGetTVshowByIdRequest,
+        encodeTVshowResponse,
     )
-    DeleteBookHandler := httptransport.NewServer(
-        makeDeleteBookEndpoint(svc),
-        decodeDeleteBookRequest,
-        encodeResponse,
+    DeleteTVshowHandler := httptransport.NewServer(
+        makeDeleteTVshowEndpoint(svcTV),
+        decodeDeleteTVshowRequest,
+        encodeTVshowResponse,
     )
-    UpdateBookHandler := httptransport.NewServer(
-        makeUpdateBookendpoint(svc),
-        decodeUpdateBookRequest,
-        encodeResponse,
-	)
-	
-	//Author
-	CreateAuthorHandler := httptransport.NewServer(
-        makeCreateAuthorEndpoint(svcAuthor),
-        decodeCreateAuthorRequest,
-        encodeAuthorResponse,
+    UpdateTVshowHandler := httptransport.NewServer(
+        makeUpdateTVshowendpoint(svcTV),
+        decodeUpdateTVshowRequest,
+        encodeTVshowResponse,
     )
-    GetByAuthorIdHandler := httptransport.NewServer(
-        makeGetAuthorByIdEndpoint(svcAuthor),
-        decodeGetAuthorByIdRequest,
-        encodeAuthorResponse,
+    GetYearByTVshowId := httptransport.NewServer(
+        makGetYearByTVshowIdEndpoint(svcTV),
+        decodeGetYearByTVshowIdRequest,
+        encodeTVshowResponse,
     )
-    DeleteAuthorHandler := httptransport.NewServer(
-        makeDeleteAuthorEndpoint(svcAuthor),
-        decodeDeleteAuthorRequest,
-        encodeAuthorResponse,
+    GetRateByTVshowId := httptransport.NewServer(
+        makGetRateByTVshowIdEndpoint(svcTV),
+        decodeGetRateByTVshowIdRequest,
+        encodeTVshowResponse,
     )
-    UpdateAuthorHandler := httptransport.NewServer(
-        makeUpdateAuthorendpoint(svcAuthor),
-        decodeUpdateAuthorRequest,
-        encodeAuthorResponse,
-	)
+    UpdateYearWithTVshowId := httptransport.NewServer(
+        makUpdateYearWithTVshowIdendpoint(svcTV),
+        decodeUpdateYearWithTVshowIdRequest,
+        encodeTVshowResponse,
+    )
+    DelteYearWithTVshowId := httptransport.NewServer(
+        makeDeleteYearWithTVshowEndpoint(svcTV),
+        decodeDeleteYearWithTVshowRequest,
+        encodeTVshowResponse,
+    )
+    UpdateRateWithTVshowId := httptransport.NewServer(
+        makeUpdateRateWithTVshowIdendpoint(svcTV),
+        decodeUpdateRateWithTVshowIdRequest,
+        encodeTVshowResponse,
+    )
+    DelteRateWithTVshowId := httptransport.NewServer(
+        makeDeleteRateWithTVshowEndpoint(svcTV),
+        decodeDeleteRateWithTVshowRequest,
+        encodeTVshowResponse,
+    )
 
-	//Publisher
-	CreatePublisherHandler := httptransport.NewServer(
-        makeCreatePublisherEndpoint(svcPublisher),
-        decodeCreatePublisherRequest,
-        encodePublisherResponse,
+    //Rate
+    CreateRateHandler := httptransport.NewServer(
+        makeCreateRateEndpoint(svRate),
+        decodeCreateRateRequest,
+        encodeRateResponse,
     )
-    GetByPublisherIdHandler := httptransport.NewServer(
-        makeGetPublisherByIdEndpoint(svcPublisher),
-        decodeGetPublisherByIdRequest,
-        encodePublisherResponse,
+    GetByRateIdHandler := httptransport.NewServer(
+        makeGetRateByIdEndpoint(svRate),
+        decodeGetRateByIdRequest,
+        encodeRateResponse,
     )
-    DeletePublisherHandler := httptransport.NewServer(
-        makeDeletePublisherEndpoint(svcPublisher),
-        decodeDeletePublisherRequest,
-        encodePublisherResponse,
+    DeleteRateHandler := httptransport.NewServer(
+        makeDeleteRateEndpoint(svRate),
+        decodeDeleteRateRequest,
+        encodeRateResponse,
     )
-    UpdatePublisherHandler := httptransport.NewServer(
-        makeUpdatePublisherendpoint(svcPublisher),
-        decodeUpdatePublisherRequest,
-        encodePublisherResponse,
-	)
+    UpdateRateHandler := httptransport.NewServer(
+        makeUpdateRateendpoint(svRate),
+        decodeUpdateRateRequest,
+        encodeRateResponse,
+    )
+    
+    //Year
+    CreateYearHandler := httptransport.NewServer(
+        makeCreateYearEndpoint(svYear),
+        decodeCreateYearRequest,
+        encodeYearResponse,
+    )
+    GetByYearIdHandler := httptransport.NewServer(
+        makeGetYearByIdEndpoint(svYear),
+        decodeGetYearByIdRequest,
+        encodeYearResponse,
+    )
+    DeleteYearHandler := httptransport.NewServer(
+        makeDeleteYearEndpoint(svYear),
+        decodeDeleteYearRequest,
+        encodeYearResponse,
+    )
+    UpdateYearHandler := httptransport.NewServer(
+        makeUpdateYearendpoint(svYear),
+        decodeUpdateYearRequest,
+        encodeYearResponse,
+    )
 
-
+    
     http.Handle("/", r)
-    http.Handle("/book", CreateBookHandler)
-    http.Handle("/book/update", UpdateBookHandler)
-    r.Handle("/book/{bookid}", GetByBookIdHandler).Methods("GET")
-	r.Handle("/book/{bookid}", DeleteBookHandler).Methods("DELETE")
-	//Author
-	http.Handle("/author", CreateAuthorHandler)
-    http.Handle("/author/update", UpdateAuthorHandler)
-    r.Handle("/author/{authorid}", GetByAuthorIdHandler).Methods("GET")
-	r.Handle("/author/{authorid}", DeleteAuthorHandler).Methods("DELETE")
-	//Publisher
-	http.Handle("/publisher", CreatePublisherHandler)
-    http.Handle("/publisher/update", UpdatePublisherHandler)
-    r.Handle("/publisher/{publisherid}", GetByPublisherIdHandler).Methods("GET")
-	r.Handle("/publisher/{publisherid}", DeletePublisherHandler).Methods("DELETE")
+    http.HandleFunc("/write", handler)
+    //Tv show
+    http.Handle("/show", CreateTVshowHandler)
+    http.Handle("/show/update", UpdateTVshowHandler)
+    r.Handle("/show/{tvshowid}", GetByTVshowIdHandler).Methods("GET")
+    r.Handle("/show/{tvshowid}", DeleteTVshowHandler).Methods("DELETE")
 
-    // http.Handle("/metrics", promhttp.Handler())
+    r.Handle("/show/{tvshowid}/year", GetYearByTVshowId).Methods("GET")
+    r.Handle("/show/{tvshowid}/year/{yearid}", GetYearByTVshowId).Methods("GET")
+    r.Handle("/show/{tvshowid}/year", UpdateYearWithTVshowId).Methods("PUT")
+    r.Handle("/show/{tvshowid}/year/{yearid}", DelteYearWithTVshowId).Methods("DELETE")
+
+    r.Handle("/show/{tvshowid}/rate", GetRateByTVshowId).Methods("GET")
+    r.Handle("/show/{tvshowid}/rate/{rateid}", GetRateByTVshowId).Methods("GET")
+    r.Handle("/show/{tvshowid}/rate", UpdateRateWithTVshowId).Methods("PUT")
+    r.Handle("/show/{tvshowid}/rate/{rateid}", DelteRateWithTVshowId).Methods("DELETE")
+    //Rate
+    http.Handle("/rate", CreateRateHandler)
+    http.Handle("/rate/update", UpdateRateHandler)
+    r.Handle("/rate/{rateid}", GetByRateIdHandler).Methods("GET")
+    r.Handle("/rate/{rateid}", DeleteRateHandler).Methods("DELETE")
+    //Year
+    http.Handle("/year", CreateYearHandler)
+    http.Handle("/year/update", UpdateYearHandler)
+    r.Handle("/year/{yearid}", GetByYearIdHandler).Methods("GET")
+    r.Handle("/year/{yearid}", DeleteYearHandler).Methods("DELETE")
+    
     logger.Log("msg", "HTTP", "addr", ":"+os.Getenv("PORT"))
     logger.Log("err", http.ListenAndServe(":"+os.Getenv("PORT"), nil))
+    
 }
