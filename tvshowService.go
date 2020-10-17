@@ -11,15 +11,15 @@ import (
 type TVshow struct {
     IdShow     string `json:"idShow"`
     Title      string `json:"Title"`
+    Year       string `json:"Year"`
     Age        string `json:"Age"`
+    IMDb       string `json:"IMDb"`
     RottenT    string `json:"Rotten Tomatoes"`
     Netflix    string `json:"Netflix"`
     Hulu       string `json:"Hulu"`
     PrimeV     string `json:"Prime Video"`
     Disney     string `json:"Disney+"`
     Type       string `json:"type"`
-    IdYear     string `json:"idYear"`
-    IdRate     string `json:"idRate"`
 }
 
 type tvshowservice struct {
@@ -52,15 +52,15 @@ func readDataFromTvShowCSV(filePath string) {
         show := TVshow{
             IdShow:    record[0],
             Title:     record[1],
-            Age:       record[2],
-            RottenT:   record[3],
-            Netflix:   record[4],
-            Hulu:      record[5],
-            PrimeV:    record[6],
-            Disney:    record[7],
-            Type:      record[8],
-            IdYear:    record[9],
-            IdRate:    record[10]}
+            Year:      record[2],
+            Age:       record[3],
+            IMDb:      record[4],
+            RottenT:   record[5],
+            Netflix:   record[6],
+            Hulu:      record[7],
+            PrimeV:    record[8],
+            Disney:    record[9],
+            Type:      record[10]}
 		shows = append(shows, show)
     }
     file.Close()
@@ -84,7 +84,7 @@ func writeDataTvShowCSV(filePath string) {
     defer writer.Flush()
 
     for _, show := range shows {
-        record := []string{show.IdShow,show.Title,show.Age,show.RottenT,show.Netflix,show.Hulu,show.PrimeV,show.Disney,show.Type,show.IdYear,show.IdRate}
+        record := []string{show.IdShow,show.Title,show.Year,show.Age,show.IMDb,show.RottenT,show.Netflix,show.Hulu,show.PrimeV,show.Disney,show.Type}
         err := writer.Write(record)
         checkError("Cannot write to file", err)
     }
@@ -97,12 +97,9 @@ type TVshowService interface {
     GetTVshowById(ctx context.Context, id string) (interface{}, error)
     UpdateTVshow(ctx context.Context, tvshow TVshow) (string, error)
     DeleteTVshow(ctx context.Context, id string) (string, error)
-    GetYearByTVshowId(ctx context.Context, id string) (interface{}, error)
-    GetRateByTVshowId(ctx context.Context, id string) (interface{}, error)
-    UpdateYearWithTVshowId(ctx context.Context, tvshow TVshow, id string) (string, error)
-    DeleteYearWithTVshow(ctx context.Context, idShow string, idRate string) (string, error)
-    UpdateRateWithTVshowId(ctx context.Context, tvshow TVshow, id string) (string, error)
-    DeleteRateWithTVshow(ctx context.Context, idShow string, idRate string) (string, error)
+    GetYears(ctx context.Context, id string) (interface{}, error)
+    GetRates(ctx context.Context, id string) (interface{}, error)
+    GetAges(ctx context.Context, id string) (interface{}, error)
 }
 
 func findTVshow(x string) int {
@@ -162,86 +159,45 @@ func (s tvshowservice) UpdateTVshow(ctx context.Context, tvshow TVshow) (string,
     return msg, nil
 }
 
-func (s tvshowservice) GetYearByTVshowId(ctx context.Context, id string) (interface{}, error) {
+func (s tvshowservice) GetYears(ctx context.Context, id string) (interface{}, error) {
+    var tvshow = []TVshow{}
     var err error
-    var year interface{}
     var empty interface{}
-    i := findTVshow(id)
-    if i == -1 {
+    for _, show := range shows {
+		if id == show.Year {
+            tvshow = append(tvshow, show)
+		}
+    }
+    if tvshow == nil {
         return empty, err
     }
-    var idYear = shows[i].IdYear
-
-    i2 := findYear(idYear)
-    if i2 == -1 {
-        return empty, err
-    }
-    year = years[i2]
-
-    return year, nil
+	return tvshow, nil
 }
-
-func (s tvshowservice) GetRateByTVshowId(ctx context.Context, id string) (interface{}, error) {
+func (s tvshowservice) GetRates(ctx context.Context, id string) (interface{}, error) {
+    var tvshow = []TVshow{}
     var err error
-    var rate interface{}
     var empty interface{}
-    i := findTVshow(id)
-    if i == -1 {
+    for _, show := range shows {
+		if id == show.IMDb {
+            tvshow = append(tvshow, show)
+		}
+    }
+    if tvshow == nil {
         return empty, err
     }
-    
-    var idRate = shows[i].IdRate
-    i2 := findRate(idRate)
-    if i2 == -1 {
+	return tvshow, nil
+}
+func (s tvshowservice) GetAges(ctx context.Context, id string) (interface{}, error) {
+    var tvshow = []TVshow{}
+    var err error
+    var empty interface{}
+    for _, show := range shows {
+		if id == show.Age {
+            tvshow = append(tvshow, show)
+		}
+    }
+    if tvshow == nil {
         return empty, err
     }
-    rate = rates[i2]
-
-    return rate, nil
-}
-
-func (s tvshowservice) UpdateYearWithTVshowId(ctx context.Context, tvshow TVshow, id string) (string, error) {
-    var empty = ""
-    var err error
-    var msg = "success"
-    i := findTVshow(id)
-    if i == -1 {
-        return empty, err
-    }
-    shows[i].IdYear = tvshow.IdYear
-    return msg, nil
-}
-
-func (s tvshowservice) DeleteYearWithTVshow(ctx context.Context, idShow string, idYear string) (string, error) {
-    var err error
-    msg := ""
-    i := findTVshow(idShow)
-    if i == -1 {
-        return "", err
-    }
-    shows[i].IdYear = ""
-    return msg, nil
-}
-
-func (s tvshowservice) UpdateRateWithTVshowId(ctx context.Context, tvshow TVshow, id string) (string, error) {
-    var empty = ""
-    var err error
-    var msg = "success"
-    i := findTVshow(id)
-    if i == -1 {
-        return empty, err
-    }
-    shows[i].IdRate = tvshow.IdRate
-    return msg, nil
-}
-
-func (s tvshowservice) DeleteRateWithTVshow(ctx context.Context, idShow string, idRate string) (string, error) {
-    var err error
-    msg := ""
-    i := findTVshow(idShow)
-    if i == -1 {
-        return "", err
-    }
-    shows[i].IdRate = ""
-    return msg, nil
+	return tvshow, nil
 }

@@ -1,4 +1,4 @@
-module github.com/PabloF1096/gowebservices
+module github.com/cursos-una/proyecto1-distribuidos-tv-shows
 
 require (
 	github.com/go-kit/kit v0.10.0

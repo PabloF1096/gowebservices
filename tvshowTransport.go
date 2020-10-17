@@ -26,26 +26,37 @@ func makeGetTVshowByIdEndpoint(s TVshowService) endpoint.Endpoint {
         return GetTVshowByIdResponse{TVshow: tvshowDetails, Err: ""}, nil
     }
 }
-func makGetYearByTVshowIdEndpoint(s TVshowService) endpoint.Endpoint {
+func makeGetYearsEndpoint(s TVshowService) endpoint.Endpoint {
     return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(GetYearbyTVshowIdRequest)
-        resultYear, err := s.GetYearByTVshowId(ctx, req.Id)
+		req := request.(GetYearsRequest)
+        tvshowDetails, err := s.GetYears(ctx, req.Id)
         if err != nil {
-            return GetYearbyTVshowIdResponse{Year: resultYear, Err: "Id not found"}, nil
+            return GetYearsResponse{TVshow: tvshowDetails, Err: "Id not found"}, nil
         }
-        return GetYearbyTVshowIdResponse{Year: resultYear, Err: ""}, nil
+        return GetYearsResponse{TVshow: tvshowDetails, Err: ""}, nil
     }
 }
-func makGetRateByTVshowIdEndpoint(s TVshowService) endpoint.Endpoint {
+func makeGetRatesEndpoint(s TVshowService) endpoint.Endpoint {
     return func(ctx context.Context, request interface{}) (interface{}, error) {
-		req := request.(GetRateByTVshowIdRequest)
-        resultRate, err := s.GetRateByTVshowId(ctx, req.Id)
+		req := request.(GetRatesRequest)
+        tvshowDetails, err := s.GetRates(ctx, req.Id)
         if err != nil {
-            return GetRateByTVshowIdResponse{Rate: resultRate, Err: "Id not found"}, nil
+            return GetRatesResponse{TVshow: tvshowDetails, Err: "Id not found"}, nil
         }
-        return GetRateByTVshowIdResponse{Rate: resultRate, Err: ""}, nil
+        return GetRatesResponse{TVshow: tvshowDetails, Err: ""}, nil
     }
 }
+func makeGetAgesEndpoint(s TVshowService) endpoint.Endpoint {
+    return func(ctx context.Context, request interface{}) (interface{}, error) {
+		req := request.(GetAgesRequest)
+        tvshowDetails, err := s.GetAges(ctx, req.Id)
+        if err != nil {
+            return GetAgesResponse{TVshow: tvshowDetails, Err: "Id not found"}, nil
+        }
+        return GetAgesResponse{TVshow: tvshowDetails, Err: ""}, nil
+    }
+}
+
 func makeDeleteTVshowEndpoint(s TVshowService) endpoint.Endpoint {
     return func(ctx context.Context, request interface{}) (interface{}, error) {
         req := request.(DeleteTVshowRequest)
@@ -61,42 +72,6 @@ func makeUpdateTVshowendpoint(s TVshowService) endpoint.Endpoint {
         req := request.(UpdateTVshowRequest)
         msg, err := s.UpdateTVshow(ctx, req.tvshow)
         return msg, err
-    }
-}
-func makUpdateYearWithTVshowIdendpoint(s TVshowService) endpoint.Endpoint {
-    return func(ctx context.Context, request interface{}) (interface{}, error) {
-        req := request.(UpdateYearWithTVshowIdRequest)
-        msg, err := s.UpdateYearWithTVshowId(ctx, req.tvshow,req.Id)
-        return msg, err
-    }
-}
-
-func makeDeleteYearWithTVshowEndpoint(s TVshowService) endpoint.Endpoint {
-    return func(ctx context.Context, request interface{}) (interface{}, error) {
-        req := request.(DeleteYearWithTVshowRequest)
-        msg, err := s.DeleteYearWithTVshow(ctx, req.TVshowid, req.IdYear)
-        if err != nil {
-            return DeleteYearWithTVshowResponse{Msg: msg, Err: err}, nil
-        }
-        return DeleteYearWithTVshowResponse{Msg: msg, Err: nil}, nil
-    }
-}
-func makeUpdateRateWithTVshowIdendpoint(s TVshowService) endpoint.Endpoint {
-    return func(ctx context.Context, request interface{}) (interface{}, error) {
-        req := request.(UpdateRateWithTVshowIdRequest)
-        msg, err := s.UpdateRateWithTVshowId(ctx, req.tvshow,req.Id)
-        return msg, err
-    }
-}
-
-func makeDeleteRateWithTVshowEndpoint(s TVshowService) endpoint.Endpoint {
-    return func(ctx context.Context, request interface{}) (interface{}, error) {
-        req := request.(DeleteRateWithTVshowRequest)
-        msg, err := s.DeleteRateWithTVshow(ctx, req.TVshowid, req.IdRate)
-        if err != nil {
-            return DeleteRateWithTVshowResponse{Msg: msg, Err: err}, nil
-        }
-        return DeleteRateWithTVshowResponse{Msg: msg, Err: nil}, nil
     }
 }
 
@@ -118,24 +93,34 @@ func decodeGetTVshowByIdRequest(_ context.Context, r *http.Request) (interface{}
     }
     return req, nil
 }
-func decodeGetYearByTVshowIdRequest(_ context.Context, r *http.Request) (interface{}, error) {
-    var req GetYearbyTVshowIdRequest
-    fmt.Println("-------->>>>into GetYearbyTVshowId Decoding")
+func decodeGetYearsRequest(_ context.Context, r *http.Request) (interface{}, error) {
+    var req GetYearsRequest
+    fmt.Println("-------->>>>into Get Years Decoding")
     vars := mux.Vars(r)
-    req = GetYearbyTVshowIdRequest{
-        Id: vars["tvshowid"],
+    req = GetYearsRequest{
+        Id: vars["yearid"],
     }
     return req, nil
 }
-func decodeGetRateByTVshowIdRequest(_ context.Context, r *http.Request) (interface{}, error) {
-    var req GetRateByTVshowIdRequest
-    fmt.Println("-------->>>>into GetRateByTVshowId Decoding")
+func decodeGetRatesRequest(_ context.Context, r *http.Request) (interface{}, error) {
+    var req GetRatesRequest
+    fmt.Println("-------->>>>into Get Rates Decoding")
     vars := mux.Vars(r)
-    req = GetRateByTVshowIdRequest{
-        Id: vars["tvshowid"],
+    req = GetRatesRequest{
+        Id: vars["rateid"],
     }
     return req, nil
 }
+func decodeGetAgesRequest(_ context.Context, r *http.Request) (interface{}, error) {
+    var req GetAgesRequest
+    fmt.Println("-------->>>>into Get Ages Decoding")
+    vars := mux.Vars(r)
+    req = GetAgesRequest{
+        Id: vars["ageid"],
+    }
+    return req, nil
+}
+
 func decodeDeleteTVshowRequest(_ context.Context, r *http.Request) (interface{}, error) {
     fmt.Println("-------->>>> Into Delete Decoding")
     var req DeleteTVshowRequest
@@ -153,54 +138,11 @@ func decodeUpdateTVshowRequest(_ context.Context, r *http.Request) (interface{},
     }
     return req, nil
 }
-func decodeUpdateYearWithTVshowIdRequest(_ context.Context, r *http.Request) (interface{}, error) {
-    fmt.Println("-------->>>> Into Update Year With TVshowId Decoding")
-    var req UpdateYearWithTVshowIdRequest
-    vars := mux.Vars(r)
-    req = UpdateYearWithTVshowIdRequest{
-        Id: vars["tvshowid"],
-    }
-    if err := json.NewDecoder(r.Body).Decode(&req.tvshow); err != nil {
-        return nil, err
-    }
-    return req, nil
-}
-func decodeDeleteYearWithTVshowRequest(_ context.Context, r *http.Request) (interface{}, error) {
-    fmt.Println("-------->>>> Into Delete Year With TVshow Decoding")
-    var req DeleteYearWithTVshowRequest
-    vars := mux.Vars(r)
-    req = DeleteYearWithTVshowRequest{
-        TVshowid: vars["tvshowid"],
-        IdYear:   vars["yearid"],
-    }
-    return req, nil
-}
-func decodeUpdateRateWithTVshowIdRequest(_ context.Context, r *http.Request) (interface{}, error) {
-    fmt.Println("-------->>>> Into Update Rate With TVshowId Decoding")
-    var req UpdateRateWithTVshowIdRequest
-    vars := mux.Vars(r)
-    req = UpdateRateWithTVshowIdRequest{
-        Id: vars["tvshowid"],
-    }
-    if err := json.NewDecoder(r.Body).Decode(&req.tvshow); err != nil {
-        return nil, err
-    }
-    return req, nil
-}
-func decodeDeleteRateWithTVshowRequest(_ context.Context, r *http.Request) (interface{}, error) {
-    fmt.Println("-------->>>> Into Delete Rate With TVshow Decoding")
-    var req DeleteRateWithTVshowRequest
-    vars := mux.Vars(r)
-    req = DeleteRateWithTVshowRequest{
-        TVshowid: vars["tvshowid"],
-        IdRate:   vars["rateid"],
-    }
-    return req, nil
-}
 
 func encodeTVshowResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
     w.Header().Set("Content-Type", "application/json; charset=utf-8")
     fmt.Println("into Encoding <<<<<<----------------")
+    writeDataTvShowCSV("tv_shows.csv")
     return json.NewEncoder(w).Encode(response)
 }
 
@@ -219,19 +161,25 @@ type (
         TVshow interface{} `json:"tvshow,omitempty"`
         Err  string      `json:"error,omitempty"`
     }
-
-    GetYearbyTVshowIdRequest struct {
-        Id string `json:"tvshowid"`
+    GetYearsRequest struct {
+        Id string `json:"yearid"`
     }
-    GetYearbyTVshowIdResponse struct {
-        Year interface{} `json:"year,omitempty"`
+    GetYearsResponse struct {
+        TVshow interface{} `json:"tvshow,omitempty"`
         Err  string      `json:"error,omitempty"`
     }
-    GetRateByTVshowIdRequest struct {
-        Id string `json:"tvshowid"`
+    GetRatesRequest struct {
+        Id string `json:"rateid"`
     }
-    GetRateByTVshowIdResponse struct {
-        Rate interface{} `json:"rate,omitempty"`
+    GetRatesResponse struct {
+        TVshow interface{} `json:"tvshow,omitempty"`
+        Err  string      `json:"error,omitempty"`
+    }
+    GetAgesRequest struct {
+        Id string `json:"ageid"`
+    }
+    GetAgesResponse struct {
+        TVshow interface{} `json:"tvshow,omitempty"`
         Err  string      `json:"error,omitempty"`
     }
 
@@ -248,41 +196,6 @@ type (
     }
     UpdateTVshowResponse struct {
         Msg string `json:"status,omitempty"`
-        Err error  `json:"error,omitempty"`
-    }
-
-    UpdateYearWithTVshowIdRequest struct {
-        tvshow TVshow
-        Id string `json:"tvshowid"`
-    }
-    UpdateYearWithTVshowIdResponse struct {
-        Msg string `json:"status,omitempty"`
-        Err error  `json:"error,omitempty"`
-    }
-    DeleteYearWithTVshowRequest struct {
-        TVshowid string `json:"tvshowid"`
-        IdYear string `json:"yearid"`
-    }
-
-    DeleteYearWithTVshowResponse struct {
-        Msg string `json:"response"`
-        Err error  `json:"error,omitempty"`
-    }
-    UpdateRateWithTVshowIdRequest struct {
-        tvshow TVshow
-        Id string `json:"tvshowid"`
-    }
-    UpdateRateWithTVshowIdResponse struct {
-        Msg string `json:"status,omitempty"`
-        Err error  `json:"error,omitempty"`
-    }
-    DeleteRateWithTVshowRequest struct {
-        TVshowid string `json:"tvshowid"`
-        IdRate string `json:"rateid"`
-    }
-
-    DeleteRateWithTVshowResponse struct {
-        Msg string `json:"response"`
         Err error  `json:"error,omitempty"`
     }
 )
